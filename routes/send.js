@@ -25,7 +25,7 @@ send.post("/adicionar/usuario", async (req, res) => {
 
       await novoUsuario.save();
 
-      const usuarioExistente = await Usuario.findOne({ _id: "656a6ced19d3eb7857f35351" });
+      const usuarioExistente = await Usuario.findOne({ _id: "656a78b0e5247833e2eea69a" });
       if (usuarioExistente) {
         const chatData = new Conversa({
           pessoa1: novoUsuario._id,
