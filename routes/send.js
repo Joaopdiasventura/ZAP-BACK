@@ -3,7 +3,6 @@ import Usuario from "../models/usuario.js";
 import Conversa from "../models/conversa.js";
 import Mensagem from "../models/mensagem.js";
 import bcrypt from "bcrypt";
-import LocalStrategy from "passport-local";
 import passport from "passport";
 import nodemailer from "nodemailer"
 
@@ -25,8 +24,19 @@ send.post("/adicionar/usuario", async (req, res) => {
       novoUsuario.senha = hash;
 
       await novoUsuario.save();
+
+      const usuarioExistente = await Usuario.findOne({ _id: "656a6ced19d3eb7857f35351" });
+      if (usuarioExistente) {
+        const chatData = new Conversa({
+          pessoa1: novoUsuario._id,
+          pessoa2: usuarioExistente._id,
+        });
+
+        await chatData.save();
+      }
+
       console.log("Usuário registrado");
-      return res.send({ok: "/login"});
+      return res.send({ ok: "/login" });
     }
   } catch (error) {
     return res.send(error);
