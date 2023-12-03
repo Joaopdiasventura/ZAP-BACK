@@ -2,6 +2,7 @@ import { Router } from "express";
 import Usuario from "../models/usuario.js";
 import Conversa from "../models/conversa.js";
 import Mensagem from "../models/mensagem.js";
+import cors from "cors";
 
 const view = Router();
 
@@ -50,5 +51,6 @@ view.get("/mensagens/:_id", async(req, res) => {
     }
 });
 
+send.options("/mensagens/:_id", cors());
 
 export default view;
