@@ -48,14 +48,26 @@ send.post("/adicionar/usuario", async (req, res) => {
 
 send.post("/adicionar/conversa/:_id1/:_id2", async (req, res) => {
   try {
-    const chatData = new Conversa({
-      pessoa1: req.params._id1,
-      pessoa2: req.params._id2,
+    const conversaExistente = await Conversa.findOne({
+      $or: [
+        { pessoa1: req.params._id1, pessoa2: req.params._id2 },
+        { pessoa1: req.params._id2, pessoa2: req.params._id1 }
+      ]
     });
 
-    await chatData.save();
-
-    return res.send(chatData);
+    if (conversaExistente) {
+      return ;
+    }
+    else{
+      const chatData = new Conversa({
+        pessoa1: req.params._id1,
+        pessoa2: req.params._id2,
+      });
+  
+      await chatData.save();
+  
+      return res.send(chatData);
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).send("Internal Server Error");
