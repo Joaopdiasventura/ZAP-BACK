@@ -51,6 +51,6 @@ view.get("/mensagens/:_id", async(req, res) => {
     }
 });
 
-send.options("/mensagens/:_id", cors());
+view.options("/mensagens/:_id", cors());
 
 export default view;
