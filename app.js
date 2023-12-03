@@ -16,8 +16,9 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
 const corsOptions = {
-    origin: 'https://joaopdiasventura.github.io',
+    origin: '*', 
     optionsSuccessStatus: 200 
 };
 
