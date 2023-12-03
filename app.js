@@ -6,6 +6,7 @@ import view from "./routes/view.js";
 import logar from "./config/Auth.js";
 import passport from "passport";
 import session from "express-session";
+import bodyParser from "body-parser";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,7 +19,8 @@ app.use(session({
 }));
 
 app.use(cors());
-app.use(express.json());
+
+app.use(bodyParser.json());
 
 app.use(send);
 app.use(view);

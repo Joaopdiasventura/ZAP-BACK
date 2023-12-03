@@ -4,11 +4,20 @@ import Conversa from "../models/conversa.js";
 import Mensagem from "../models/mensagem.js";
 import bcrypt from "bcrypt";
 import passport from "passport";
-import nodemailer from "nodemailer"
+import nodemailer from "nodemailer";
 
 const send = Router();
 
 send.post("/adicionar/usuario", async (req, res) => {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://joaopdiasventura.github.io"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+
   try {
     const { nome, email, senha, senha2 } = req.body;
 
@@ -25,7 +34,9 @@ send.post("/adicionar/usuario", async (req, res) => {
 
       await novoUsuario.save();
 
-      const usuarioExistente = await Usuario.findOne({ _id: "656a78b0e5247833e2eea69a" });
+      const usuarioExistente = await Usuario.findOne({
+        _id: "656a78b0e5247833e2eea69a",
+      });
       if (usuarioExistente) {
         const chatData = new Conversa({
           pessoa1: novoUsuario._id,
@@ -44,6 +55,14 @@ send.post("/adicionar/usuario", async (req, res) => {
 });
 
 send.post("/adicionar/conversa/:_id1/:_id2", async (req, res) => {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://joaopdiasventura.github.io"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   try {
     const chatData = new Conversa({
       pessoa1: req.params._id1,
@@ -60,6 +79,14 @@ send.post("/adicionar/conversa/:_id1/:_id2", async (req, res) => {
 });
 
 send.post("/adicionar/mensagem/:_idc/:_idr/:_idd", async (req, res) => {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://joaopdiasventura.github.io"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   try {
     const textData = new Mensagem({
       conversa: req.params._idc,
@@ -72,73 +99,95 @@ send.post("/adicionar/mensagem/:_idc/:_idr/:_idd", async (req, res) => {
 
     return res.send(textData);
   } catch (error) {}
-    
 });
 
-send.post("/email/:email", async(req, res)=>{
-    const usuario = await Usuario.findOne({email: req.params.email});
-    if (usuario) {
-        res.send(usuario);
-    }
-    else{
-        res.send({message: "Conta não encontrada"});
-    }
-})
+send.post("/email/:email", async (req, res) => {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://joaopdiasventura.github.io"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  const usuario = await Usuario.findOne({ email: req.params.email });
+  if (usuario) {
+    res.send(usuario);
+  } else {
+    res.send({ message: "Conta não encontrada" });
+  }
+});
 
 send.post("/enviar/:email", async (req, res) => {
-    const erros = [];
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://joaopdiasventura.github.io"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  const erros = [];
 
-    let cod;
+  let cod;
 
-    const usuarioExistente = await Usuario.findOne({ email: req.params.email });
-    if (usuarioExistente) {
-        erros.push({ texto: "EMAIL REGISTRADO NO SISTEMA... TENTE OUTRO" });
-        res.render("registro", { erros: erros })
-    } else {
-        cod = (Math.random() * 999).toFixed(0);
-        const transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                user: 'jpplayrucoy@gmail.com',
-                pass: 'fwkg dkgg bigp ufqw',
-            },
-        });
+  const usuarioExistente = await Usuario.findOne({ email: req.params.email });
+  if (usuarioExistente) {
+    erros.push({ texto: "EMAIL REGISTRADO NO SISTEMA... TENTE OUTRO" });
+    res.render("registro", { erros: erros });
+  } else {
+    cod = (Math.random() * 999).toFixed(0);
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: "jpplayrucoy@gmail.com",
+        pass: "fwkg dkgg bigp ufqw",
+      },
+    });
 
-        const mailOptions = {
-            from: 'jpplayrucoy@gmail.com',
-            to: req.params.email,
-            subject: 'CÓDIGO DE REGISTRO PARA O ZAP DO VULGO JP',
-            text: cod,
-        };
+    const mailOptions = {
+      from: "jpplayrucoy@gmail.com",
+      to: req.params.email,
+      subject: "CÓDIGO DE REGISTRO PARA O ZAP DO VULGO JP",
+      text: cod,
+    };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log('Erro ao enviar o e-mail: ' + error);
-            } else {
-                res.send({ cod: cod });
-            }
-        });
-    }
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Erro ao enviar o e-mail: " + error);
+      } else {
+        res.send({ cod: cod });
+      }
+    });
+  }
 });
 
 send.post("/login", async (req, res, next) => {
-    passport.authenticate("local", (err, user, info) => {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://joaopdiasventura.github.io"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      console.error(err);
+      return next(err);
+    }
+    if (!user) {
+      console.error(info);
+      return res.send(info);
+    }
+    req.logIn(user, (err) => {
       if (err) {
         console.error(err);
-        return next(err);
+        return res.send(err);
       }
-      if (!user) {
-        console.error(info);
-        return res.send(info );
-      }
-      req.logIn(user, (err) => {
-        if (err) {
-          console.error(err);
-          return res.send( err );
-        }
-        return res.send(user);
-      });
-    })(req, res, next);
-  });
+      return res.send(user);
+    });
+  })(req, res, next);
+});
 
 export default send;
