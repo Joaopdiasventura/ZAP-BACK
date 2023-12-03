@@ -9,9 +9,6 @@ import nodemailer from "nodemailer"
 const send = Router();
 
 send.post("/adicionar/usuario", async (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'https://joaopdiasventura.github.io');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  
   try {
     const { nome, email, senha, senha2 } = req.body;
 
@@ -47,9 +44,6 @@ send.post("/adicionar/usuario", async (req, res) => {
 });
 
 send.post("/adicionar/conversa/:_id1/:_id2", async (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'https://joaopdiasventura.github.io');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  
   try {
     const chatData = new Conversa({
       pessoa1: req.params._id1,
@@ -66,9 +60,6 @@ send.post("/adicionar/conversa/:_id1/:_id2", async (req, res) => {
 });
 
 send.post("/adicionar/mensagem/:_idc/:_idr/:_idd", async (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'https://joaopdiasventura.github.io');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  
   try {
     const textData = new Mensagem({
       conversa: req.params._idc,
@@ -85,9 +76,6 @@ send.post("/adicionar/mensagem/:_idc/:_idr/:_idd", async (req, res) => {
 });
 
 send.post("/email/:email", async(req, res)=>{
-  res.header('Access-Control-Allow-Origin', 'https://joaopdiasventura.github.io');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  
     const usuario = await Usuario.findOne({email: req.params.email});
     if (usuario) {
         res.send(usuario);
@@ -98,9 +86,6 @@ send.post("/email/:email", async(req, res)=>{
 })
 
 send.post("/enviar/:email", async (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'https://joaopdiasventura.github.io');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  
     const erros = [];
 
     let cod;
@@ -137,9 +122,6 @@ send.post("/enviar/:email", async (req, res) => {
 });
 
 send.post("/login", async (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://joaopdiasventura.github.io');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  
     passport.authenticate("local", (err, user, info) => {
       if (err) {
         console.error(err);

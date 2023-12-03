@@ -10,21 +10,14 @@ import session from "express-session";
 const app = express();
 const port = process.env.PORT || 3000;
 
+
 app.use(session({
     secret: 'Jpplay2_0',
     resave: true,
     saveUninitialized: true
 }));
 
-const corsOptions = {
-    origin: 'https://joaopdiasventura.github.io',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    optionsSuccessStatus: 200 
-};
-
-app.use(cors(corsOptions));
-
+app.use(cors());
 app.use(express.json());
 
 app.use(send);
