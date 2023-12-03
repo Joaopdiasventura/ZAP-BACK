@@ -11,27 +11,21 @@ import bodyParser from "body-parser";
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Configurar a sessão
 app.use(session({
     secret: 'Jpplay2_0',
     resave: true,
     saveUninitialized: true
 }));
 
-// Habilitar o CORS para todas as origens
 app.use(cors());
 
-// Utilizar bodyParser para analisar corpos de solicitação JSON
 app.use(bodyParser.json());
 
-// Adicionar rotas
 app.use(send);
 app.use(view);
 
-// Configurar autenticação com Passport
 logar(passport);
 
-// Conectar ao MongoDB
 const mongoDBURI = "mongodb+srv://joaopdiasventura:Jpplay2_0@cluster0.7i4iw97.mongodb.net/zapzap";
 
 mongoose.connect(mongoDBURI, {

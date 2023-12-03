@@ -6,14 +6,6 @@ import Mensagem from "../models/mensagem.js";
 const view = Router();
 
 view.get("/conversas/:_id", async (req, res) => {
-    res.header(
-      "Access-Control-Allow-Origin",
-      "https://joaopdiasventura.github.io"
-    );
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
     try {
         const Conversas1 = await Conversa.find({ pessoa1: req.params._id });
         const Conversas2 = await Conversa.find({ pessoa2: req.params._id });
@@ -27,14 +19,6 @@ view.get("/conversas/:_id", async (req, res) => {
 });
 
 view.get("/pessoa1/:_id", async (req, res) => {
-    res.header(
-      "Access-Control-Allow-Origin",
-      "https://joaopdiasventura.github.io"
-    );
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
     try {
         const pessoa1 = await Usuario.find({ _id: req.params._id });
         res.send(pessoa1);
@@ -45,14 +29,6 @@ view.get("/pessoa1/:_id", async (req, res) => {
 
 
 view.get("/pessoa2/:_id", async (req, res) => {
-    res.header(
-      "Access-Control-Allow-Origin",
-      "https://joaopdiasventura.github.io"
-    );
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
     try {
         const pessoa2 = await Usuario.find({ _id: req.params._id });
         res.send(pessoa2);
