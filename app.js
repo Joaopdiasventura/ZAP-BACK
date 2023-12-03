@@ -16,8 +16,13 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+const corsOptions = {
+    origin: 'https://joaopdiasventura.github.io',
+    optionsSuccessStatus: 200 
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 app.use(send);
