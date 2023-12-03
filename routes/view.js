@@ -51,6 +51,12 @@ view.get("/mensagens/:_id", async(req, res) => {
     }
 });
 
-view.options("/mensagens/:_id", cors());
+view.options("/mensagens/:_id", cors({
+    origin: 'https://joaopdiasventura.github.io',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 200,
+    allowedHeaders: 'Access-Control-Allow-Origin'
+}));
 
 export default view;
