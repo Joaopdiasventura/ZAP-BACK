@@ -17,7 +17,12 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 200
+}));
 
 app.use(bodyParser.json());
 
@@ -33,9 +38,8 @@ mongoose.connect(mongoDBURI, {
     useUnifiedTopology: true,
 })
 .then(() => {
-    console.log("Conexão com o MongoDB Atlas estabelecida com sucesso.");
+    console.log("Conexão com o MongoDB Atlas estabelecida com sucesso...");
 
-    // Iniciar o servidor
     app.listen(port, () => {
         console.log(`SERVIDOR RODANDO NA PORTA ${port}`);
     });
