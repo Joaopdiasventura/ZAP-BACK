@@ -17,7 +17,7 @@ app.use(session({
 }));
 
 const corsOptions = {
-    origin: '*', // Permitir qualquer origem
+    origin: 'https://joaopdiasventura.github.io',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 200 
