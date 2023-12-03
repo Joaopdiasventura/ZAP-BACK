@@ -8,6 +8,8 @@ import nodemailer from "nodemailer"
 
 const send = Router();
 
+send.use(cors());
+
 send.post("/adicionar/usuario", async (req, res) => {
   try {
     const { nome, email, senha, senha2 } = req.body;
