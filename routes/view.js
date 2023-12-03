@@ -6,6 +6,8 @@ import cors from "cors";
 
 const view = Router();
 
+view.use(cors());
+
 view.get("/conversas/:_id", async (req, res) => {
     try {
         const Conversas1 = await Conversa.find({ pessoa1: req.params._id });
@@ -50,13 +52,5 @@ view.get("/mensagens/:_id", async(req, res) => {
         
     }
 });
-
-view.options("/mensagens/:_id", cors({
-    origin: 'https://joaopdiasventura.github.io',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    optionsSuccessStatus: 200,
-    allowedHeaders: 'Access-Control-Allow-Origin'
-}));
 
 export default view;
