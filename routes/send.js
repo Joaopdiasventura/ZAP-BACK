@@ -5,6 +5,7 @@ import Mensagem from "../models/mensagem.js";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import nodemailer from "nodemailer"
+import cors from "cors";
 
 const send = Router();
 
